@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <appender name = "STDOUT" class = "ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{ISO8601} [%t] s=xconf_oss %p %c{0} %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--Daily rolling file appender -->
+    <appender name = "FILE" class = "ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>/app/logs/xconf/xconf_oss_dataservice.log</File>
+
+    <rollingPolicy class = "ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+        <FileNamePattern>/app/logs/xconf/xconf_oss_dataservice.log.%i</FileNamePattern>
+        <minIndex>1</minIndex>
+        <maxIndex>5</maxIndex>
+    </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>20MB</maxFileSize>
+        </triggeringPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{ISO8601} [%t] %-5p %c{0} - %m%n</pattern>
+        </encoder>
+
+    </appender>
+    <logger name="com.comcast.xre.metrics.app.MetricsFlumeLogger" level="OFF" />
+
+    <root>
+        <!--<level value = "DEBUG"/>-->
+        <level value="INFO" />
+        <appender-ref ref = "FILE"/>
+        <appender-ref ref = "STDOUT"/>
+    </root>
+
+    <!--<logger name="com.comcast.artemis.jmx" level="OFF"/>-->
+    <logger name="com.comcast.smart.coast" level="INFO" />
+    <logger name="com.datastax.driver" level="INFO" />
+    <logger name="com.comcast.apps" level="INFO" />
+    <logger name="com.comcast.xconf" level="INFO" />    
+    
+</configuration>
