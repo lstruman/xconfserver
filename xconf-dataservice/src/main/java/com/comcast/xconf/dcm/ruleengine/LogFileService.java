@@ -127,7 +127,7 @@ public class LogFileService {
         if (logFiles.size() <= maxResults) {
             return logFiles;
         } else {
-            return new ArrayList<>(logFiles.subList(0, maxResults-1));
+            return new ArrayList<>(logFiles.subList(0, maxResults - 1));
         }
     }
 

@@ -47,6 +47,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.codehaus.jackson.JsonProcessingException;
 import org.json.JSONObject;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.zip.CRC32;
@@ -139,7 +140,8 @@ public class LogUploaderService {
         requestUtil.normalizeContext(context);
     }
 
-    protected void normalizeTelemetryContext(Map<String, String> context) {}
+    protected void normalizeTelemetryContext(Map<String, String> context) {
+    }
 
     private PermanentTelemetryProfile toTelemetry2Response(PermanentTelemetryProfile profile) {
         profile.setTelemetryProfile(toTelemetry2Elements(profile.getTelemetryProfile()));
@@ -171,7 +173,7 @@ public class LogUploaderService {
         }
     }
 
-    private ResponseEntity getTelemetryProfile (final Map<String,String> context, boolean isTelemetry2Settings) {
+    private ResponseEntity getTelemetryProfile(final Map<String, String> context, boolean isTelemetry2Settings) {
         TelemetryProfile profile = telemetryProfileService.getTelemetryForContext(context);
         if (profile != null) {
             profile = isTelemetry2Settings ? toTelemetry2Response(profile) : profile;
@@ -183,7 +185,7 @@ public class LogUploaderService {
 
     private void logResultSettings(Settings settings, TelemetryRule telemetryRule, Set<SettingRule> settingRules) {
         List<String> ruleNames = new ArrayList<>();
-        for(String ruleId: settings.getRuleIDs()) {
+        for (String ruleId : settings.getRuleIDs()) {
             DCMGenericRule dcmRule = dcmRuleDAO.getOne(ruleId);
             if (dcmRule != null && StringUtils.isNotBlank(dcmRule.getName())) {
                 ruleNames.add(dcmRule.getName());
@@ -239,7 +241,8 @@ public class LogUploaderService {
         Map<String, Object> result = new HashMap<>();
         result.put("profiles", profiles);
 
-        if (profiles.isEmpty()) return new ResponseEntity<>("<h2>404 NOT FOUND</h2>profiles not found", HttpStatus.NOT_FOUND);
+        if (profiles.isEmpty())
+            return new ResponseEntity<>("<h2>404 NOT FOUND</h2>profiles not found", HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

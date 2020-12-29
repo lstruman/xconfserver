@@ -121,7 +121,7 @@ public class Settings {
         this.ruleIDs = new HashSet<String>();
     }
 
-    public void addRuleID (String id) {
+    public void addRuleID(String id) {
         ruleIDs.add(id);
     }
 
@@ -134,7 +134,7 @@ public class Settings {
         this.schedulerType = schedulerType;
     }
 
-    public void copyDeviceSettings (Settings settings, boolean setLUSSettings) {
+    public void copyDeviceSettings(Settings settings, boolean setLUSSettings) {
         groupName = settings.getGroupName();
         checkOnReboot = settings.isCheckOnReboot();
         configurationServiceURL = settings.getConfigurationServiceURL();
@@ -175,14 +175,14 @@ public class Settings {
         }
     }
 
-    public void copyVodSettings (Settings settings) {
+    public void copyVodSettings(Settings settings) {
         vodSettingsName = settings.getVodSettingsName();
         locationUrl = settings.getLocationUrl();
         srmIPList = settings.getSrmIPList();
     }
 
     public boolean areFull() {
-        if (groupName != null && vodSettingsName != null ) return true;
+        if (groupName != null && vodSettingsName != null) return true;
 
         return false;
     }
@@ -314,6 +314,7 @@ public class Settings {
     public void setUpload(Boolean upload) {
         this.upload = upload;
     }
+
     @JsonIgnore
     public Boolean getLusUploadOnReboot() {
         return lusUploadOnReboot;

@@ -70,7 +70,7 @@ public class TelemetryProfileControllerTest extends BaseQueriesControllerTest {
 
     @Test
     public void testCreateTelemetryEntryFor() throws Exception {
-        final ResponseEntity re = telemetryProfileController.createTelemetryEntryFor("test","test-value", createTelemetry("tp1", System.currentTimeMillis()+ TimeUnit.HOURS.toMillis(2)));
+        final ResponseEntity re = telemetryProfileController.createTelemetryEntryFor("test", "test-value", createTelemetry("tp1", System.currentTimeMillis() + TimeUnit.HOURS.toMillis(2)));
         Assert.assertEquals(re.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 
@@ -100,7 +100,7 @@ public class TelemetryProfileControllerTest extends BaseQueriesControllerTest {
         performGetWithApplication(url, XHOME, Collections.singletonList(TelemetryProfileService.convertToDescriptor.apply(telemetryRules.get(XHOME))));
     }
 
-    private TimestampedRule createRule(long timestamp, String contextKey,String value) {
+    private TimestampedRule createRule(long timestamp, String contextKey, String value) {
         final TimestampedRule rule = new TimestampedRule();
         com.comcast.apps.hesperius.ruleengine.main.impl.Rule.Builder.of(new Condition(new FreeArg(StandardFreeArgType.STRING, contextKey), IS, FixedArg.from(value))).copyTo(rule);
         rule.setTimestamp(timestamp);

@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -74,7 +74,8 @@ public class TelemetryProfileController {
             @PathVariable("contextAttributeName") final String contextAttributeName,
             @PathVariable("expectedValue") final String expectedValue,
             @RequestBody final TelemetryProfile profile) {
-        if(!contextAttributeName.equals("estbMacAddress")) return new ResponseEntity("only estbMacAddress allowed here", HttpStatus.BAD_REQUEST);
+        if (!contextAttributeName.equals("estbMacAddress"))
+            return new ResponseEntity("only estbMacAddress allowed here", HttpStatus.BAD_REQUEST);
         final long now = DateTime.now(DateTimeZone.UTC).getMillis();
         if (now - profile.getExpires() > 0) throw new InvalidTimestampException(profile.getExpires());
         return new ResponseEntity(telemetryService.createTelemetryProfile(contextAttributeName, expectedValue, profile), HttpStatus.OK);
@@ -103,10 +104,11 @@ public class TelemetryProfileController {
     @RequestMapping(value = "/addTo/{ruleId}/{contextAttributeName}/{expectedValue}/{expires}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity tempAddToPermanentRule(@PathVariable("contextAttributeName") final String contextAttributeName,
-                                       @PathVariable("expectedValue") final String expectedValue,
-                                       @PathVariable("ruleId") final String targetRule,
-                                       @PathVariable("expires") long expires) {
-        if(!contextAttributeName.equals("estbMacAddress")) return new ResponseEntity("only estbMacAddress allowed here", HttpStatus.BAD_REQUEST);
+                                                 @PathVariable("expectedValue") final String expectedValue,
+                                                 @PathVariable("ruleId") final String targetRule,
+                                                 @PathVariable("expires") long expires) {
+        if (!contextAttributeName.equals("estbMacAddress"))
+            return new ResponseEntity("only estbMacAddress allowed here", HttpStatus.BAD_REQUEST);
         final TelemetryRule rule = telemetryRuleDAO.getOne(targetRule);
         if (rule == null) {
             throw new NoSuchRuleException();
@@ -123,10 +125,11 @@ public class TelemetryProfileController {
     @RequestMapping(value = "/bindToTelemetry/{telemetryId}/{contextAttributeName}/{expectedValue}/{expires}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity bindToTelemetry(@PathVariable("contextAttributeName") final String contextAttributeName,
-                                       @PathVariable("expectedValue") final String expectedValue,
-                                       @PathVariable("telemetryId") final String telemetryId,
-                                       @PathVariable("expires") long expires) {
-        if(!contextAttributeName.equals("estbMacAddress")) return new ResponseEntity("only estbMacAddress allowed here", HttpStatus.BAD_REQUEST);
+                                          @PathVariable("expectedValue") final String expectedValue,
+                                          @PathVariable("telemetryId") final String telemetryId,
+                                          @PathVariable("expires") long expires) {
+        if (!contextAttributeName.equals("estbMacAddress"))
+            return new ResponseEntity("only estbMacAddress allowed here", HttpStatus.BAD_REQUEST);
         final PermanentTelemetryProfile profile = permanentTelemetryDAO.getOne(telemetryId);
         Preconditions.checkNotNull(profile, "no rule found for ID ({}) provided", telemetryId);
 

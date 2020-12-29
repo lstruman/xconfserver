@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -105,7 +105,7 @@ public class TelemetryProfileService {
 
     public static long expireTime = 60000L;
 
-//    @Scheduled(fixedRate = 60000L)
+    //    @Scheduled(fixedRate = 60000L)
     @PostConstruct
     public void expireTemporaryTelemetryRules() {
         cacheUpdateWindowSize = cacheSettings.getTickDuration();
@@ -173,7 +173,7 @@ public class TelemetryProfileService {
             }
         }
 
-        for(final TimestampedRule rule : rules) {
+        for (final TimestampedRule rule : rules) {
             temporaryTelemetryProfileDAO.deleteOne(rule);       // deleting everything found as per XAPPS-2536
         }
 
@@ -244,7 +244,7 @@ public class TelemetryProfileService {
     public List<TelemetryTwoProfile> getTelemetryTwoProfileByTelemetryRules(List<TelemetryTwoRule> telemetryTwoRules) {
         final LinkedList<TelemetryTwoProfile> telemetryTwoProfiles = new LinkedList<>();
         for (final TelemetryTwoRule telemetryTwoRule : telemetryTwoRules) {
-            if (telemetryTwoRule != null && CollectionUtils.isNotEmpty(telemetryTwoRule.getBoundTelemetryIds()) ) {
+            if (telemetryTwoRule != null && CollectionUtils.isNotEmpty(telemetryTwoRule.getBoundTelemetryIds())) {
                 for (final String boundTelemetryId : telemetryTwoRule.getBoundTelemetryIds()) {
                     if (StringUtils.isBlank(boundTelemetryId)) {
                         continue;

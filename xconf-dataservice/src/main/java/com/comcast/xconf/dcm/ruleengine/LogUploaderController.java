@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -44,11 +45,11 @@ public class LogUploaderController {
 
     @RequestMapping(value = "/getT2Settings/{applicationType}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getT2Settings(HttpServletRequest request,
-                                      @RequestParam(value = "checkNow", required = false) Boolean checkNow,
-                                      @RequestParam(value = "version", required = false) String apiVersion,
-                                      @RequestParam(value = "settingType", required = false) Set<String> settingTypes,
-                                      @RequestParam Map<String, String> params,
-                                      @PathVariable String applicationType) {
+                                        @RequestParam(value = "checkNow", required = false) Boolean checkNow,
+                                        @RequestParam(value = "version", required = false) String apiVersion,
+                                        @RequestParam(value = "settingType", required = false) Set<String> settingTypes,
+                                        @RequestParam Map<String, String> params,
+                                        @PathVariable String applicationType) {
 
         final LogUploaderContext context = new LogUploaderContext(params);
         context.setApplication(applicationType);
@@ -57,10 +58,10 @@ public class LogUploaderController {
 
     @RequestMapping(value = "/getT2Settings", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getT2Settings(HttpServletRequest request,
-                                      @RequestParam(value = "checkNow", required = false) Boolean checkNow,
-                                      @RequestParam(value = "version", required = false) String apiVersion,
-                                      @RequestParam(value = "settingType", required = false) Set<String> settingTypes,
-                                      @RequestParam Map<String, String> params) {
+                                        @RequestParam(value = "checkNow", required = false) Boolean checkNow,
+                                        @RequestParam(value = "version", required = false) String apiVersion,
+                                        @RequestParam(value = "settingType", required = false) Set<String> settingTypes,
+                                        @RequestParam Map<String, String> params) {
 
         final LogUploaderContext context = new LogUploaderContext(params);
         context.setApplication(STB);
@@ -70,11 +71,11 @@ public class LogUploaderController {
 
     @RequestMapping(value = "/getSettings/{applicationType}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getSettingsByApplicationType(HttpServletRequest request,
-                                           @PathVariable String applicationType,
-                                           @RequestParam(value = "checkNow", required = false) Boolean checkNow,
-                                           @RequestParam(value = "version", required = false) String apiVersion,
-                                           @RequestParam(value = "settingType", required = false) Set<String> settingTypes,
-                                           @RequestParam Map<String, String> params) {
+                                                       @PathVariable String applicationType,
+                                                       @RequestParam(value = "checkNow", required = false) Boolean checkNow,
+                                                       @RequestParam(value = "version", required = false) String apiVersion,
+                                                       @RequestParam(value = "settingType", required = false) Set<String> settingTypes,
+                                                       @RequestParam Map<String, String> params) {
 
         final LogUploaderContext context = new LogUploaderContext(params);
         context.setApplication(applicationType);

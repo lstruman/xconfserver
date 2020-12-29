@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -80,11 +80,11 @@ public class SettingsDAO {
             if (logUploadSettings.getModeToGetLogFiles() != null) {
                 List<LogFile> listLogFilesForLogUplSettings = null;
                 if (logUploadSettings.getModeToGetLogFiles().equals(LogUploadSettings.MODE_TO_GET_LOG_FILES[0])) {
-                    listLogFilesForLogUplSettings = indexesLogFilesDAO.getAll(logUploadSettings.getId(), Integer.MAX_VALUE/100);
+                    listLogFilesForLogUplSettings = indexesLogFilesDAO.getAll(logUploadSettings.getId(), Integer.MAX_VALUE / 100);
                 } else if (logUploadSettings.getModeToGetLogFiles().equals(LogUploadSettings.MODE_TO_GET_LOG_FILES[1])) {
                     String keyFileGroup = logUploadSettings.getLogFilesGroupId();
                     if (keyFileGroup != null && !keyFileGroup.isEmpty()) {
-                        listLogFilesForLogUplSettings = indexesLogFilesDAO.getAll(keyFileGroup, Integer.MAX_VALUE/100);
+                        listLogFilesForLogUplSettings = indexesLogFilesDAO.getAll(keyFileGroup, Integer.MAX_VALUE / 100);
                     }
                 } else if (logUploadSettings.getModeToGetLogFiles().equals(LogUploadSettings.MODE_TO_GET_LOG_FILES[2])) {
                     listLogFilesForLogUplSettings = logFileDAO.getAll();
@@ -114,6 +114,6 @@ public class SettingsDAO {
     }
 
     public static String buildUrl(UploadProtocol protocol, String host) {
-        return (host.contains("://") || protocol == null) ? host : protocol.toString().toLowerCase() + "://"  + host;
+        return (host.contains("://") || protocol == null) ? host : protocol.toString().toLowerCase() + "://" + host;
     }
 }
