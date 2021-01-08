@@ -89,6 +89,7 @@ public class TelemetryProfileController {
         return telemetryService.dropTelemetryFor(contextAttributeName, expectedValue);
     }
 
+    // get profiles and ids
     @RequestMapping(value = "/getAvailableRuleDescriptors", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<PermanentTelemetryRuleDescriptor> getDescriptors(@RequestParam(required = false) String applicationType) {
@@ -101,6 +102,8 @@ public class TelemetryProfileController {
         return telemetryService.getAvailableProfileDescriptors(applicationType);
     }
 
+    // GD: these are not actually used by still in the doc, so staying
+    //     "deprecated", no UI element,
     @RequestMapping(value = "/addTo/{ruleId}/{contextAttributeName}/{expectedValue}/{expires}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity tempAddToPermanentRule(@PathVariable("contextAttributeName") final String contextAttributeName,

@@ -52,6 +52,7 @@ public class CassandraConfiguration {
     }
 
     protected Cluster cluster(String username, String password) {
+        System.out.println("#### C01 #### username = "+username+" password = "+password);
         Cluster.Builder builder = Cluster.builder()
                 .addContactPoints(cassandraSettings.getContactPoints())
                 .withPort(cassandraSettings.getPort())
@@ -59,14 +60,18 @@ public class CassandraConfiguration {
                 .withCredentials(username, password)
                 .withQueryOptions(new QueryOptions().setConsistencyLevel(
                         ConsistencyLevel.valueOf(cassandraSettings.getConsistencyLevel())));
+        System.out.println("#### C02 ####");
         if (StringUtils.isNotBlank(cassandraSettings.getLocalDataCenter())) {
             DCAwareRoundRobinPolicy roundRobinPolicy = DCAwareRoundRobinPolicy.builder()
                     .withLocalDc(cassandraSettings.getLocalDataCenter())
                     .build();
             builder.withLoadBalancingPolicy(roundRobinPolicy);
         }
+        System.out.println("#### C03 ####");
         Cluster cluster = builder.build();
+        System.out.println("#### C04 ####");
         cluster.register(clusterLatencyListener);
+        System.out.println("#### C05 ####");
         return cluster;
 
     }
