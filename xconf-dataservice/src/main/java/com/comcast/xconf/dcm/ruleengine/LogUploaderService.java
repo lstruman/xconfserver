@@ -181,6 +181,7 @@ public class LogUploaderService {
         }
     }
 
+    // James: check if it is t1.2 or t2
     private ResponseEntity getTelemetryProfile(final Map<String, String> context, boolean isTelemetry2Settings) {
         TelemetryProfile profile = telemetryProfileService.getTelemetryForContext(context);
         if (profile != null) {
@@ -231,6 +232,7 @@ public class LogUploaderService {
 
         final Map<String, String> contextProps = context.getProperties();
 
+        // James: processXXXXRules() call rule engine
         List<TelemetryTwoRule> telemetryTwoRules = telemetryProfileService.processTelemetryTwoRules(contextProps);
         List<TelemetryTwoProfile> telemetryTwoProfiles = telemetryProfileService.getTelemetryTwoProfileByTelemetryRules(telemetryTwoRules);
 

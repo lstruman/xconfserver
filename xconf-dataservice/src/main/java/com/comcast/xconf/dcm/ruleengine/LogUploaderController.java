@@ -66,6 +66,7 @@ public class LogUploaderController {
         final LogUploaderContext context = new LogUploaderContext(params);
         context.setApplication(STB);
 
+        // James: note the last arg is ``true''
         return logUploaderService.evaluateSettings(request, checkNow, apiVersion, settingTypes, context, true);
     }
 
@@ -95,6 +96,7 @@ public class LogUploaderController {
         return logUploaderService.evaluateSettings(request, checkNow, apiVersion, settingTypes, context, false);
     }
 
+    // James: t2 API
     @RequestMapping(value = "/getTelemetryProfiles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getTelemetryTwoProfiles(HttpServletRequest request,
                                                   @RequestParam Map<String, String> params) throws JsonProcessingException, IOException {
@@ -104,6 +106,7 @@ public class LogUploaderController {
         return logUploaderService.getTelemetryTwoProfiles(request, context);
     }
 
+    // James: t2 API
     @RequestMapping(value = "/getTelemetryProfiles/{applicationType}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getTelemetryTwoProfilesByApplicationType(HttpServletRequest request,
                                                                    @PathVariable String applicationType,
