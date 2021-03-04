@@ -55,6 +55,7 @@ public class AuxEvaluators extends Evaluators {
         }));
 
         // ==============================    IpAddressEvaluators    ===============================================
+        // ev2
         add(new BaseEvaluator(AuxFreeArgType.IP_ADDRESS, StandardOperation.IS, IpAddress.class) {
             @Override
             protected boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -62,6 +63,7 @@ public class AuxEvaluators extends Evaluators {
             }
         });
 
+        // ev3
         add(new BaseEvaluator(AuxFreeArgType.IP_ADDRESS, StandardOperation.IN, IpAddressGroup.class) {
             @Override
             protected boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -69,6 +71,7 @@ public class AuxEvaluators extends Evaluators {
             }
         });
 
+        // ev4
         add(new BaseEvaluator(AuxFreeArgType.IP_ADDRESS, StandardOperation.PERCENT, Double.class) {
             @Override
             protected boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -77,6 +80,7 @@ public class AuxEvaluators extends Evaluators {
         });
 
         // ==============================    MacAddressEvaluators    ==============================================
+        // ev5
         add(new BaseEvaluator(AuxFreeArgType.MAC_ADDRESS, StandardOperation.IS, MacAddress.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -84,6 +88,7 @@ public class AuxEvaluators extends Evaluators {
             }
         });
 
+        // ev6
         add(new BaseEvaluator(AuxFreeArgType.MAC_ADDRESS, StandardOperation.LIKE, String.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -91,6 +96,7 @@ public class AuxEvaluators extends Evaluators {
             }
         });
 
+        // ev7
         add(new BaseEvaluator(AuxFreeArgType.MAC_ADDRESS, StandardOperation.IN, Collection.class) { // Collection<MacAddress>
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -114,6 +120,7 @@ public class AuxEvaluators extends Evaluators {
             }
         });
 
+        // ev8
         add(new BaseEvaluator(AuxFreeArgType.MAC_ADDRESS, StandardOperation.ANY_MATCHED, Collection.class) { // Collection<String>
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -127,6 +134,7 @@ public class AuxEvaluators extends Evaluators {
             }
         });
 
+        // ev9
         add(new BaseEvaluator(AuxFreeArgType.MAC_ADDRESS, StandardOperation.PERCENT, Double.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {

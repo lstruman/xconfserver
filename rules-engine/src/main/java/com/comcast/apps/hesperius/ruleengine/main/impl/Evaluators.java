@@ -36,6 +36,18 @@ public class Evaluators implements IEvaluators {
 
     protected final Map<FreeArgType, Map<Operation, IConditionEvaluator>> evaluators = new HashMap<FreeArgType, Map<Operation, IConditionEvaluator>>();
 
+    public int size() {
+        return evaluators.size();
+    }
+
+    public void verbose() {
+        for (Map.Entry<FreeArgType, Map<Operation, IConditionEvaluator>> entry : evaluators.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue().size());
+            System.out.println("=========");
+        }
+    }
+
     public void add(final IConditionEvaluator evaluator, boolean allowOverrides) {
         Map<Operation, IConditionEvaluator> evaluatorsByOperation = evaluators.get(evaluator.getFreeArgType());
         if (evaluatorsByOperation == null) {
@@ -52,7 +64,7 @@ public class Evaluators implements IEvaluators {
 
     @Override
     public void add(IConditionEvaluator evaluator) {
-       add(evaluator, true);
+        add(evaluator, true);
     }
 
     public void add(final IEvaluators evaluators, boolean allowOverrides) {

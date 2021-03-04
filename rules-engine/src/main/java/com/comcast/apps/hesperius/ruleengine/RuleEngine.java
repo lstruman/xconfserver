@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -36,33 +36,41 @@ import java.util.Set;
 
 public final class RuleEngine {
     private static final Logger LOGGER = LoggerFactory.getLogger(RuleEngine.class);
-    private static final Evaluators RULE_EVALUATORS;
+    public static final Evaluators RULE_EVALUATORS;
 
     static {
         RULE_EVALUATORS = StandardEvaluators.get();
+        System.out.println("A01 re.size() = " + RULE_EVALUATORS.size()); // ==> size=4
+        RULE_EVALUATORS.verbose();
+        System.out.println("---- break line in static{} ----");
         RULE_EVALUATORS.add(AuxEvaluators.get());
+        RULE_EVALUATORS.verbose();
+        System.out.println("A02 re.size() = " + RULE_EVALUATORS.size()); // ==> size=7
 
-            final RuleEngineConfig config = RuleEngineConfig.Provider.INSTANCE.getConfig();
-            for (String className : config.getEvaluatorClasses()) {
-                try {
-                    final Class evaluatorClass = Class.forName(className);
-                    LOGGER.info("registering {} as customEvaluator", evaluatorClass.getSimpleName());
-                    if (Evaluators.class.isAssignableFrom(evaluatorClass)) {
-                        RULE_EVALUATORS.add((Evaluators)evaluatorClass.newInstance(),config.isAllowDefaultOperationsOverrides());
-                    } else if(IConditionEvaluator.class.isAssignableFrom(evaluatorClass)) {
-                        RULE_EVALUATORS.add((IConditionEvaluator)evaluatorClass.newInstance(), config.isAllowDefaultOperationsOverrides());
-                    }else {
-                        LOGGER.error("inappropriate type supplied as evaluators source {}, must be either {} or {}", className);
-                    }
-                } catch (ClassNotFoundException ex) {
-                    LOGGER.error("could not locate " + className + "in classpath", ex);
-                } catch (InstantiationException e) {
-                    LOGGER.error("could not instantiate " + className, e);
-                } catch (IllegalAccessException e) {
-                    LOGGER.error("could not instantiate " + className, e);
+        final RuleEngineConfig config = RuleEngineConfig.Provider.INSTANCE.getConfig();
+        // JAMES in my test, the config is empty
+        for (String className : config.getEvaluatorClasses()) {
+            System.out.println("### C01 className = " + className);
+            try {
+                final Class evaluatorClass = Class.forName(className);
+                LOGGER.info("registering {} as customEvaluator", evaluatorClass.getSimpleName());
+                if (Evaluators.class.isAssignableFrom(evaluatorClass)) {
+                    RULE_EVALUATORS.add((Evaluators) evaluatorClass.newInstance(), config.isAllowDefaultOperationsOverrides());
+                } else if (IConditionEvaluator.class.isAssignableFrom(evaluatorClass)) {
+                    RULE_EVALUATORS.add((IConditionEvaluator) evaluatorClass.newInstance(), config.isAllowDefaultOperationsOverrides());
+                } else {
+                    LOGGER.error("inappropriate type supplied as evaluators source {}, must be either {} or {}", className);
                 }
+            } catch (ClassNotFoundException ex) {
+                LOGGER.error("could not locate " + className + "in classpath", ex);
+            } catch (InstantiationException e) {
+                LOGGER.error("could not instantiate " + className, e);
+            } catch (IllegalAccessException e) {
+                LOGGER.error("could not instantiate " + className, e);
             }
         }
+        System.out.println("A03 re.size() = " + RULE_EVALUATORS.size()); // ==> size=7
+    }
 
     /**
      * Currently by default standard and auxiliary evaluators

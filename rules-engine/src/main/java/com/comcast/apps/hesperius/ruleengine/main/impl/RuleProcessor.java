@@ -39,10 +39,14 @@ import java.util.Map;
 
 public class RuleProcessor<T extends IReadonlyCondition, U extends IReadonlyRule<T, U>> implements IRuleProcessor<T, U> {
 
-    protected final IEvaluators evaluators;
+    public final IEvaluators evaluators;
 
     public RuleProcessor(IEvaluators evaluators) {
         this.evaluators = evaluators;
+    }
+
+    public IEvaluators get() {
+        return evaluators;
     }
 
     @Override

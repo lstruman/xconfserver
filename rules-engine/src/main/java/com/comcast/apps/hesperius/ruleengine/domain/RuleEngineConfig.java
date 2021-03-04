@@ -56,9 +56,13 @@ public class RuleEngineConfig {
 
         private Provider() {
             final InputStream configInput = Provider.class.getClassLoader().getResourceAsStream(RuleUtils.EngineConstants.CONFIG_FILE_NAME);
-            if (configInput != null)
+            if (configInput != null) {
+                System.out.println("R01");
                 config = RuleUtils.fromJSON(RuleEngineConfig.class, configInput);
-            else config = new RuleEngineConfig();
+            } else {
+                System.out.println("R02");
+                config = new RuleEngineConfig();
+            }
         }
     }
 }

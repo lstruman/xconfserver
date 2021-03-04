@@ -54,6 +54,7 @@ public class StandardEvaluators extends Evaluators {
 
     {
         // =============================    ExistsEvaluator    ======================================================
+        // ev1
         add(new BaseEvaluator(StandardFreeArgType.ANY, StandardOperation.EXISTS, Void.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -70,6 +71,7 @@ public class StandardEvaluators extends Evaluators {
         });
 
         // ================================    StringEvaluators    ==================================================
+        // ev2
         add(new BaseEvaluator(StandardFreeArgType.STRING, StandardOperation.IS, String.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -77,6 +79,7 @@ public class StandardEvaluators extends Evaluators {
             }
         });
 
+        // ev3
         add(new BaseEvaluator(StandardFreeArgType.STRING, StandardOperation.LIKE, String.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -84,6 +87,7 @@ public class StandardEvaluators extends Evaluators {
             }
         });
 
+        // ev4
         add(new BaseEvaluator(StandardFreeArgType.STRING, StandardOperation.IN, Collection.class) { // Collection<String>
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -91,6 +95,7 @@ public class StandardEvaluators extends Evaluators {
             }
         });
 
+        // ev5
         add(new BaseEvaluator(StandardFreeArgType.STRING, StandardOperation.ANY_MATCHED, Collection.class) { // Collection<String>
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -103,6 +108,7 @@ public class StandardEvaluators extends Evaluators {
             }
         });
 
+        // ev6
         add(new BaseEvaluator(StandardFreeArgType.STRING, StandardOperation.PERCENT, Double.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -110,6 +116,7 @@ public class StandardEvaluators extends Evaluators {
             }
         });
 
+        // ev7 ? not sure what this is, this adds more than 1 in the Long
         // ================================    LongEvaluators    ==================================================
         add(RuleUtils.generateComparingEvaluators(StandardFreeArgType.LONG, Long.class, new Function<String, Long>() {
             @Override
@@ -122,6 +129,8 @@ public class StandardEvaluators extends Evaluators {
             }
         }));
 
+
+        // ev8
         add(new BaseEvaluator(StandardFreeArgType.LONG, StandardOperation.IN, Collection.class) { // Collection<Long>
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -135,6 +144,7 @@ public class StandardEvaluators extends Evaluators {
             }
         });
 
+        // ev9
         add(new BaseEvaluator(StandardFreeArgType.LONG, StandardOperation.PERCENT, Double.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -149,6 +159,7 @@ public class StandardEvaluators extends Evaluators {
         });
 
         // ================================    VoidEvaluators    ==================================================
+        // ev10
         add(new BaseEvaluator(StandardFreeArgType.VOID, StandardOperation.IS, Boolean.class) {
             @Override
             public boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
@@ -156,6 +167,7 @@ public class StandardEvaluators extends Evaluators {
             }
         });
 
+        // ev11
         add(new BaseEvaluator(StandardFreeArgType.VOID, StandardOperation.PERCENT, Double.class) {
             private final Random random = new Random();
             @Override
