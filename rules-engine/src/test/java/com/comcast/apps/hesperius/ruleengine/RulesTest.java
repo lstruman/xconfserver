@@ -119,6 +119,15 @@ public class RulesTest {
 
         Rule weekday = not(weekend);
 
+        /*
+        System.out.println("weekend = " + weekend);
+        System.out.println("weekday = " + weekday);
+
+        boolean ok = true;
+        if (ok) return;
+        
+         */
+
         Rule baby = new Rule();
         baby.setCondition(new Condition(age, StandardOperation.LT, FixedArg.from(5L)));
 
@@ -152,7 +161,7 @@ public class RulesTest {
                 .put(baby, "baby")
                 .put(oldman, "oldman")
                 .put(alwaysTrue, "alwaysTrue")
-                .put(isFalse, "isFalse")
+                //.put(isFalse, "isFalse")
                 .put(vacation, "vacation")
                 .put(midnight, "midnight")
                 .put(dinnerTime, "dinnerTime")
@@ -168,6 +177,29 @@ public class RulesTest {
                 .put("ip", "192.168.0.1")
                 .build();
         Iterable<Rule> matched = processor.filter(rulesToNames.keySet(), context);
+
+        // ++++
+        Iterator<Rule> it = matched.iterator();
+        int matchedCount = 0;
+        while (it.hasNext()) {
+            Rule r = (Rule) it.next();
+            String name = rulesToNames.get(r);
+            System.out.println("matched name = " + name + ", r = " + r);
+
+            /*
+            try {
+                System.out.println("matched r = " + r);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+             */
+            matchedCount++;
+        }
+        System.out.println("matchedCount = " + matchedCount);
+        System.out.println("stop here");
+        boolean ok1 = true;
+        if (ok1) return;
+        // ----
         verify(rulesToNames, matched, weekday, baby, vacation, dinnerTime, alwaysTrue, notAtWork);
 
         context = ImmutableMap.<String, String>builder()

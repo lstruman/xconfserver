@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -96,12 +96,12 @@ public class Condition implements ICondition {
     @Override
     public String toString() {
         final StringBuilder res = new StringBuilder();
-
+        String fval = (getFixedArg() != null) ? getFixedArg().getValue().toString() : "null";
         res.append(getFreeArg().getName())
                 .append(" ")
                 .append(getOperation())
                 .append(" ")
-                .append(getFixedArg().getValue());
+                .append(fval);
 
         return res.toString();
     }

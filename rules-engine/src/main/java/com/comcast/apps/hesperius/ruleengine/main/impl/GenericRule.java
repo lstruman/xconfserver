@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -110,6 +110,7 @@ public class GenericRule<T extends Condition, U extends GenericRule<T, U>> imple
     @Override
     public String toString() {
         final StringBuilder res = new StringBuilder();
+        res.append(isNegated() ? " NOT " : "");
         res.append("(");
         if (isCompound()) {
             res.append(getCompoundParts().get(0))
@@ -139,8 +140,8 @@ public class GenericRule<T extends Condition, U extends GenericRule<T, U>> imple
             }
             res.append(")");
         } else {
-            res.append(isNegated() ? " NOT " : "")
-                    .append(getCondition());
+            //res.append(isNegated() ? " NOT " : "")
+            res.append(getCondition());
         }
         res.append(")");
 
