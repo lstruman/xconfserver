@@ -83,6 +83,20 @@ public class RulesTest {
     @Test
     public void test04() {
         System.out.println("teen titans");
+
+        Map<String, String> context = ImmutableMap.<String, String>builder()
+                .put("day", "Friday")
+                .put("age", "2")
+                .put("vacation", "")
+                .put("time", "13:30")
+                .put("ip", "192.168.0.1")
+                .build();
+
+        Rule vacation = new Rule();
+        vacation.setCondition(new Condition(new FreeArg(StandardFreeArgType.ANY, "vacation"), StandardOperation.EXISTS, null));
+
+        boolean ok2 = processor.evaluate(vacation, context);
+        System.out.println("ok2 = "+ok2);
     }
 
     @Test
@@ -118,15 +132,6 @@ public class RulesTest {
         weekend.setCompoundParts(Arrays.asList(saturday, or(sunday)));
 
         Rule weekday = not(weekend);
-
-        /*
-        System.out.println("weekend = " + weekend);
-        System.out.println("weekday = " + weekday);
-
-        boolean ok = true;
-        if (ok) return;
-        
-         */
 
         Rule baby = new Rule();
         baby.setCondition(new Condition(age, StandardOperation.LT, FixedArg.from(5L)));
@@ -177,6 +182,9 @@ public class RulesTest {
                 .put("ip", "192.168.0.1")
                 .build();
         Iterable<Rule> matched = processor.filter(rulesToNames.keySet(), context);
+
+        boolean ok2 = processor.evaluate(vacation, context);
+        System.out.println("ok2 = "+ok2);
 
         // ++++
         Iterator<Rule> it = matched.iterator();

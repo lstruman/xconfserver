@@ -56,6 +56,8 @@ public abstract class BaseEvaluator implements IConditionEvaluator {
         String freeArgValue = null;
         if (!freeArgType.equals(StandardFreeArgType.VOID)) {
             freeArgValue = context.get(condition.getFreeArg().getName());
+            boolean bb01 = !freeArgType.equals(StandardFreeArgType.ANY);
+            boolean bb02 = freeArgValue.isEmpty();
             if (freeArgValue == null || (!freeArgType.equals(StandardFreeArgType.ANY) && freeArgValue.isEmpty())) {
                 return false;
             }
