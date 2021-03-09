@@ -40,17 +40,11 @@ public final class RuleEngine {
 
     static {
         RULE_EVALUATORS = StandardEvaluators.get();
-        System.out.println("A01 re.size() = " + RULE_EVALUATORS.size()); // ==> size=4
-        RULE_EVALUATORS.verbose();
-        System.out.println("---- break line in static{} ----");
         RULE_EVALUATORS.add(AuxEvaluators.get());
-        RULE_EVALUATORS.verbose();
-        System.out.println("A02 re.size() = " + RULE_EVALUATORS.size()); // ==> size=7
 
         final RuleEngineConfig config = RuleEngineConfig.Provider.INSTANCE.getConfig();
         // JAMES in my test, the config is empty
         for (String className : config.getEvaluatorClasses()) {
-            System.out.println("### C01 className = " + className);
             try {
                 final Class evaluatorClass = Class.forName(className);
                 LOGGER.info("registering {} as customEvaluator", evaluatorClass.getSimpleName());
@@ -69,7 +63,6 @@ public final class RuleEngine {
                 LOGGER.error("could not instantiate " + className, e);
             }
         }
-        System.out.println("A03 re.size() = " + RULE_EVALUATORS.size()); // ==> size=7
     }
 
     /**

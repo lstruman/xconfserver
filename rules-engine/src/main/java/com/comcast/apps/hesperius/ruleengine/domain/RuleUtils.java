@@ -81,7 +81,6 @@ public final class RuleUtils {
         final double OFFSET = (double)Long.MAX_VALUE + 1;
         final double RANGE = (double)Long.MAX_VALUE * 2 + 1;
         double hashCode = (double)Hashing.sipHash24().hashString(str, Charsets.UTF_8).asLong() + OFFSET; // from 0 to (2 * Long.MAX_VALUE + 1)
-        System.out.println("str fitsPercent hashCode = "+hashCode);
         double limit = percent / 100 * RANGE;  // from 0 to (2 * Long.MAX_VALUE + 1)
         return (hashCode <= limit);
     }
@@ -90,7 +89,6 @@ public final class RuleUtils {
         final double OFFSET = (double)Long.MAX_VALUE + 1;
         final double RANGE = (double)Long.MAX_VALUE * 2 + 1;
         double hashCode = (double)Hashing.sipHash24().hashLong(l).asLong() + OFFSET; // from 0 to (2 * Long.MAX_VALUE + 1)
-        System.out.println("long fitsPercent hashCode = "+hashCode);
         double limit = percent / 100 * RANGE;  // from 0 to (2 * Long.MAX_VALUE + 1)
         return (hashCode <= limit);
     }
