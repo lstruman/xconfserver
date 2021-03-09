@@ -1,5 +1,5 @@
-/*
- * If not stated otherwise in this file or this component's Licenses.txt file the
+/* 
+ * If not stated otherwise in this file or this component's Licenses.txt file the 
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -21,7 +21,6 @@
  */
 package com.comcast.apps.hesperius.ruleengine;
 
-import com.comcast.apps.hesperius.ruleengine.domain.RuleUtils;
 import com.comcast.apps.hesperius.ruleengine.domain.additional.AuxFreeArgType;
 import com.comcast.apps.hesperius.ruleengine.domain.additional.data.IpAddress;
 import com.comcast.apps.hesperius.ruleengine.domain.additional.data.MacAddress;
@@ -38,17 +37,14 @@ import com.comcast.apps.hesperius.ruleengine.main.impl.Rule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.hash.Hashing;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.*;
 
 public class RulesTest {
@@ -62,8 +58,8 @@ public class RulesTest {
 
     private FreeArg day = new FreeArg(StandardFreeArgType.STRING, "day");
     private FreeArg age = new FreeArg(StandardFreeArgType.LONG, "age");
-    private FreeArg noArg = new FreeArg(StandardFreeArgType.VOID, "");
-    private FreeArg time = new FreeArg(AuxFreeArgType.TIME, "time");
+    private FreeArg noArg =  new FreeArg(StandardFreeArgType.VOID, "");
+    private FreeArg time =  new FreeArg(AuxFreeArgType.TIME, "time");
     private Rule saturday;
     private Rule sunday;
     private Rule afterOnePm;
@@ -81,55 +77,21 @@ public class RulesTest {
     }
 
     @Test
-    public void test04() {
-        System.out.println("teen titans");
+    public void test01() {
+        Rule saturday1 = new Rule();
+        saturday1.setCondition(new Condition(day, StandardOperation.IS, FixedArg.from("Saturday")));
+        
+        Rule saturday2 = new Rule();
+        saturday2.setCondition(new Condition(day, StandardOperation.IS, FixedArg.from("Saturday")));
 
-        Map<String, String> context = ImmutableMap.<String, String>builder()
-                .put("day", "Friday")
-                .put("age", "2")
-                .put("vacation", "")
-                .put("time", "13:30")
-                .put("ip", "192.168.0.1")
-                .build();
-
-        Rule vacation = new Rule();
-        vacation.setCondition(new Condition(new FreeArg(StandardFreeArgType.ANY, "vacation"), StandardOperation.EXISTS, null));
-
-        boolean ok2 = processor.evaluate(vacation, context);
-        System.out.println("ok2 = "+ok2);
-    }
-
-    @Test
-    public void test03() {
-        System.out.println("01/str " + RuleUtils.fitsPercent("ABCDEF012345", 22.2));
-        System.out.println("02/lng " + RuleUtils.fitsPercent(2345678L, 33.3));
-    }
-
-    @Test
-    public void test02() {
-        long l = 123456L;
-        l = -123456789L;
-        final double OFFSET = (double) Long.MAX_VALUE + 1;
-        final double RANGE = (double) Long.MAX_VALUE * 2 + 1;
-        long x = Hashing.sipHash24().hashLong(l).asLong();
-        System.out.println("x = " + x);
-    }
-
-    @Test
-    public void test01() throws IOException {
-        // String str = "hello world red orange green";
-        String str = "ABCDEF012345";
-        final double OFFSET = (double) Long.MAX_VALUE + 1;
-        final double RANGE = (double) Long.MAX_VALUE * 2 + 1;
-        double hashCode = (double) Hashing.sipHash24().hashString(str, Charsets.UTF_8).asLong() + OFFSET; // from 0 to (2 * Long.MAX_VALUE + 1)
-        System.out.println(hashCode);
+        Assert.assertTrue(deepEquals(saturday1, saturday2));
+        System.out.println("end of test01()");
     }
 
     @Test
     public void testRuleProcessor() throws IOException {
 
-        Rule weekend = new Rule();
-        weekend.setCompoundParts(Arrays.asList(saturday, or(sunday)));
+        Rule weekend = new Rule(); weekend.setCompoundParts(Arrays.asList(saturday, or(sunday)));
 
         Rule weekday = not(weekend);
 
@@ -160,13 +122,13 @@ public class RulesTest {
         Rule notAtWork = new Rule();
         notAtWork.setCompoundParts(Arrays.asList(vacation, or(weekend), or(dinnerTime), or(baby), or(oldman)));
 
-        Map<Rule, String> rulesToNames = ImmutableMap.<Rule, String>builder()
+        Map<Rule, String> rulesToNames = ImmutableMap.<Rule,String>builder()
                 .put(weekend, "weekend")
                 .put(weekday, "weekday")
                 .put(baby, "baby")
                 .put(oldman, "oldman")
                 .put(alwaysTrue, "alwaysTrue")
-                //.put(isFalse, "isFalse")
+                .put(isFalse, "isFalse")
                 .put(vacation, "vacation")
                 .put(midnight, "midnight")
                 .put(dinnerTime, "dinnerTime")
@@ -182,32 +144,6 @@ public class RulesTest {
                 .put("ip", "192.168.0.1")
                 .build();
         Iterable<Rule> matched = processor.filter(rulesToNames.keySet(), context);
-
-        boolean ok2 = processor.evaluate(vacation, context);
-        System.out.println("ok2 = "+ok2);
-
-        // ++++
-        Iterator<Rule> it = matched.iterator();
-        int matchedCount = 0;
-        while (it.hasNext()) {
-            Rule r = (Rule) it.next();
-            String name = rulesToNames.get(r);
-            System.out.println("matched name = " + name + ", r = " + r);
-
-            /*
-            try {
-                System.out.println("matched r = " + r);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-             */
-            matchedCount++;
-        }
-        System.out.println("matchedCount = " + matchedCount);
-        System.out.println("stop here");
-        boolean ok1 = true;
-        if (ok1) return;
-        // ----
         verify(rulesToNames, matched, weekday, baby, vacation, dinnerTime, alwaysTrue, notAtWork);
 
         context = ImmutableMap.<String, String>builder()
