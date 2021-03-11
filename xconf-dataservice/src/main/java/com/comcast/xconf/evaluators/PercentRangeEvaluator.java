@@ -37,6 +37,7 @@ public class PercentRangeEvaluator extends BaseEvaluator {
 
     @Override
     protected boolean evaluateInternal(String macAddress, Object fixedArgValue) {
+        System.out.println("#### PercentRangeEvaluator.evaluateInternal() ####");
         PercentRange percentRange = PercentRangeParser.parsePercentRange((String) fixedArgValue);
         return percentRange.getStartRange() >= 0 && percentRange.getEndRange() > 0
                 && !RuleUtils.fitsPercent(JsonUtil.toJson(macAddress), percentRange.getStartRange())

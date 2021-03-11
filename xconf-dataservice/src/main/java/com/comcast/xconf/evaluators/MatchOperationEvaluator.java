@@ -35,6 +35,7 @@ public class MatchOperationEvaluator extends BaseEvaluator {
 
     @Override
     protected boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
+        System.out.println("#### MatchOperationEvaluator.evaluateInternal() ####");
         return FilenameUtils.wildcardMatch(freeArgValue, (String) fixedArgValue);
     }
 }

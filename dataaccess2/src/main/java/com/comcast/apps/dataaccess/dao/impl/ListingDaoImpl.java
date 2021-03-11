@@ -119,6 +119,7 @@ public class ListingDaoImpl<K, N, T> extends BaseDaoImpl<K, T> implements Listin
                 .value(valueColumnName, entity)
                 .using(ttl(ttl));
         getSession().execute(statement);
+        System.out.println("executeInsertStatement(): " + statement);
         return entity;
     }
 

@@ -34,6 +34,7 @@ public class TimeGTEEvaluator extends BaseTimeEvaluator {
         @Nullable
         @Override
         public Boolean apply(@Nullable Integer integer) {
+            System.out.println("#### TimeGTEEvaluator.apply() ####");
             return (integer.intValue() >= 0);
         }
     };

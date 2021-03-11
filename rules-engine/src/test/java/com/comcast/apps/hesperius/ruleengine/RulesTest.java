@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -58,8 +58,8 @@ public class RulesTest {
 
     private FreeArg day = new FreeArg(StandardFreeArgType.STRING, "day");
     private FreeArg age = new FreeArg(StandardFreeArgType.LONG, "age");
-    private FreeArg noArg =  new FreeArg(StandardFreeArgType.VOID, "");
-    private FreeArg time =  new FreeArg(AuxFreeArgType.TIME, "time");
+    private FreeArg noArg = new FreeArg(StandardFreeArgType.VOID, "");
+    private FreeArg time = new FreeArg(AuxFreeArgType.TIME, "time");
     private Rule saturday;
     private Rule sunday;
     private Rule afterOnePm;
@@ -77,21 +77,40 @@ public class RulesTest {
     }
 
     @Test
+    public void test02() {
+        System.out.println("teen titans go");
+    }
+
+    @Test
     public void test01() {
         Rule saturday1 = new Rule();
         saturday1.setCondition(new Condition(day, StandardOperation.IS, FixedArg.from("Saturday")));
-        
+
         Rule saturday2 = new Rule();
         saturday2.setCondition(new Condition(day, StandardOperation.IS, FixedArg.from("Saturday")));
 
         Assert.assertTrue(deepEquals(saturday1, saturday2));
+
+        // ================================
+        Rule weekend1 = new Rule();
+        weekend1.setCompoundParts(Arrays.asList(saturday, or(sunday)));
+
+        Rule weekend2 = new Rule();
+        weekend2.setCompoundParts(Arrays.asList(saturday, or(sunday)));
+
+        Rule weekend3 = new Rule();
+        weekend3.setCompoundParts(Arrays.asList(sunday, or(saturday)));
+
+        Assert.assertTrue(deepEquals(weekend1, weekend2));
+        //Assert.assertTrue(deepEquals(weekend1, weekend3));
         System.out.println("end of test01()");
     }
 
     @Test
     public void testRuleProcessor() throws IOException {
 
-        Rule weekend = new Rule(); weekend.setCompoundParts(Arrays.asList(saturday, or(sunday)));
+        Rule weekend = new Rule();
+        weekend.setCompoundParts(Arrays.asList(saturday, or(sunday)));
 
         Rule weekday = not(weekend);
 
@@ -122,7 +141,7 @@ public class RulesTest {
         Rule notAtWork = new Rule();
         notAtWork.setCompoundParts(Arrays.asList(vacation, or(weekend), or(dinnerTime), or(baby), or(oldman)));
 
-        Map<Rule, String> rulesToNames = ImmutableMap.<Rule,String>builder()
+        Map<Rule, String> rulesToNames = ImmutableMap.<Rule, String>builder()
                 .put(weekend, "weekend")
                 .put(weekday, "weekday")
                 .put(baby, "baby")
@@ -223,6 +242,12 @@ public class RulesTest {
         original = new Rule();
         original.setCondition(new Condition(new FreeArg(AuxFreeArgType.MAC_ADDRESS, "mac"), StandardOperation.IN,
                 FixedArg.from(Arrays.asList(MacAddress.parse("00:11:22:AA:BB:CC"), MacAddress.parse("66:77:88:DD:EE:FF")))));
+
+
+        System.out.println("+++++++++++++++++");
+        System.out.println(writer.writeValueAsString(original));
+        System.out.println("-----------------");
+
         mapped = reader.readValue(writer.writeValueAsString(original));
         Assert.assertTrue(deepEquals(original, mapped));
         log.info(writer.writeValueAsString(original));

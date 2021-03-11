@@ -67,6 +67,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalTime;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -498,9 +499,15 @@ public abstract class BaseQueriesControllerTest {
     protected IpAddressGroupExtended createAndSaveDefaultIpAddressGroupExtended() {
         IpAddressGroupExtended result = createDefaultIpAddressGroupExtended();
         GenericNamespacedList ipList = GenericNamespacedListsConverter.convertFromIpAddressGroupExtended(result);
-        genericNamespacedListDAO.setOne(ipList.getId(), ipList);
+        String xid = ipList.getId();
+        genericNamespacedListDAO.setOne(xid, ipList);
 
         return result;
+    }
+
+    @Test
+    public void test02() {
+        System.out.println("BaseQuery test02");
     }
 
     protected IpAddressGroupExtended createIpAddressGroupExtended(Set<String> stringIpAddresses) {

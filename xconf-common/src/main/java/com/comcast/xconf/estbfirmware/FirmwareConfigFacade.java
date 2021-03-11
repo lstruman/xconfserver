@@ -39,6 +39,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+// this is the "data" for firmware "config"
 @JsonSerialize(using = FirmwareConfigFacade.Serializer.class)
 @JsonDeserialize(using = FirmwareConfigFacade.Deserializer.class)
 public class FirmwareConfigFacade {

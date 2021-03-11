@@ -51,6 +51,7 @@ public class BaseTimeEvaluator implements IConditionEvaluator {
 
     @Override
     public boolean evaluate(IReadonlyCondition condition, Map<String, String> context) {
+        System.out.println("#### BaseTimeEvaluator.evaluate() ####");
         String freeArgValue = context.get(condition.getFreeArg().getName());
         if (StringUtils.isEmpty(freeArgValue)) {
             return false;

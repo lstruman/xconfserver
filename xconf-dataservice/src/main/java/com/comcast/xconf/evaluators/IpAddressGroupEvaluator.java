@@ -47,6 +47,7 @@ public class IpAddressGroupEvaluator extends BaseEvaluator {
 
     @Override
     protected boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
+        System.out.println("#### IpAddressGroupEvaluator.evaluateInternal() ####"); 
         GenericNamespacedList nsList = nsListDao.getOne((String) fixedArgValue, false);
         if (nsList == null) {
             log.warn("Can't evaluate rule because NsList doesn't exist. ID: " + fixedArgValue);

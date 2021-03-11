@@ -41,13 +41,15 @@ public class RuleProcessorFactory {
     @Autowired
     private List<IConditionEvaluator> customEvaluators;
 
-    private IRuleProcessor<Condition,Rule> ruleProcessor;
+    private IRuleProcessor<Condition, Rule> ruleProcessor;
 
     @PostConstruct
     private void init() {
+        // System.out.println("KKKKKKKKKKK");
         Evaluators evaluators = StandardEvaluators.get();
         evaluators.add(AuxEvaluators.get());
         for (IConditionEvaluator customEvaluator : customEvaluators) {
+            // System.out.println("#### customEvaluator = " + customEvaluator);
             evaluators.add(customEvaluator);
         }
         ruleProcessor = new RuleProcessor<>(evaluators);

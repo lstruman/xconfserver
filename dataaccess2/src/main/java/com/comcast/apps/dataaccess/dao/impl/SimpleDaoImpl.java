@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * @author Roman Dolomansky (rdolomansky@productengine.com)
  */
 package com.comcast.apps.dataaccess.dao.impl;
@@ -33,7 +33,6 @@ import java.util.*;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 
 
-
 public class SimpleDaoImpl<K, T> extends BaseDaoImpl<K, T> implements SimpleDao<K, T> {
 
     protected final String keyColumnName;
@@ -45,6 +44,7 @@ public class SimpleDaoImpl<K, T> extends BaseDaoImpl<K, T> implements SimpleDao<
 
     /**
      * Use {@link #SimpleDaoImpl(Session, Class, SimpleCFDefinition)}
+     *
      * @param session
      * @param persistentClass
      */
@@ -105,6 +105,8 @@ public class SimpleDaoImpl<K, T> extends BaseDaoImpl<K, T> implements SimpleDao<
                 .value(legacyColumn, defaultColumnName)
                 .value(valueColumnName, entity)
                 .using(ttl(ttl));
+        System.out.println("setOne(): " + statement);
+
         getSession().execute(statement);
         return entity;
     }

@@ -63,6 +63,7 @@ public class LocalTimeLTEEvaluator extends BaseEvaluator {
     @Override
     @SuppressWarnings("unchecked")
     protected boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
+        System.out.println("#### LocalTimeLTEEvaluator.evaluateInternal() ####");
         LocalTime freeArgActualValue = freeArgConverter.apply(freeArgValue);
         int comparisonResult = freeArgActualValue.compareTo(LocalTime.parse((String)fixedArgValue));
         return evaluation.apply(comparisonResult);

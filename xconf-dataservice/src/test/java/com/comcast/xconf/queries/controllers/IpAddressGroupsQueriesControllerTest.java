@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -18,12 +18,13 @@
  *
  * Author: ikostrov
  * Created: 01.09.15 16:59
-*/
+ */
 package com.comcast.xconf.queries.controllers;
 
 import com.comcast.apps.dataaccess.util.JsonUtil;
 import com.comcast.xconf.GenericNamespacedList;
 import com.comcast.xconf.IpAddressGroupExtended;
+import com.comcast.xconf.converter.GenericNamespacedListsConverter;
 import com.comcast.xconf.queries.beans.StringListWrapper;
 import com.google.common.collect.Sets;
 import org.junit.Test;
@@ -31,6 +32,7 @@ import org.springframework.http.MediaType;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.comcast.xconf.queries.QueryConstants.*;
 import static org.junit.Assert.*;
@@ -60,6 +62,44 @@ public class IpAddressGroupsQueriesControllerTest extends BaseQueriesControllerT
                 .andExpect(status().isNoContent());
 
         performRequestAndVerifyResponse(QUERIES_IP_ADDRESS_GROUPS, Collections.emptyList());
+    }
+
+    @Test
+    public void test01() throws Exception {
+        // IpAddressGroupExtended x = createAndSaveDefaultIpAddressGroupExtended();
+
+        IpAddressGroupExtended result = createDefaultIpAddressGroupExtended();
+        GenericNamespacedList ipList = GenericNamespacedListsConverter.convertFromIpAddressGroupExtended(result);
+        String xid = ipList.getId();
+        genericNamespacedListDAO.setOne(xid, ipList);
+
+        System.out.println("result = " + result);
+
+        GenericNamespacedList namespacedListInResponse = genericNamespacedListDAO.getOne(xid);
+
+        System.out.println("namespacedListInResponse =" + namespacedListInResponse);
+        System.out.println("test01");
+
+        /*
+
+
+        protected IpAddressGroupExtended createIpAddressGroupExtended(Set<String> stringIpAddresses) {
+            return createIpAddressGroupExtended(UUID.randomUUID().toString(), stringIpAddresses);
+        }
+
+    protected IpAddressGroupExtended createDefaultIpAddressGroupExtended() {
+        return createIpAddressGroupExtended(Collections.singleton(defaultIpAddress));
+    }
+
+
+                 return createIpAddressGroupExtended(Collections.singleton(defaultIpAddress));
+        IpAddressGroupExtended result = createDefaultIpAddressGroupExtended();
+        GenericNamespacedList ipList = GenericNamespacedListsConverter.convertFromIpAddressGroupExtended(result);
+        genericNamespacedListDAO.setOne(ipList.getId(), ipList);
+
+        return result;
+
+         */
     }
 
     @Test

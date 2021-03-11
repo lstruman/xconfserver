@@ -90,6 +90,11 @@ public class CompressingDataDao<K, T> extends SimpleDaoImpl<K, T> {
         }
 
         getSession().execute(batchStatement);
+        System.out.println("batchStatement = " + batchStatement);
+        //Collection<Statement> coll = batchStatement.getStatements();
+        for (Statement stmt: batchStatement.getStatements()) {
+            System.out.println("batch element: " + stmt);
+        }
         return entity;
     }
 
