@@ -49,6 +49,7 @@ public abstract class BaseDaoImpl<K, T> implements BaseDao<K, T> {
     }
 
     public Session getSession() {
+        System.out.println("getSession(): session = " + session);
         return session;
     }
 

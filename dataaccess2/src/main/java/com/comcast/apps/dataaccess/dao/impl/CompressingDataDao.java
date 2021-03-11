@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * @author Igor Kostrov (ikostrov@productengine.com)
  */
 package com.comcast.apps.dataaccess.dao.impl;
@@ -26,10 +26,7 @@ import com.comcast.apps.dataaccess.config.BlobAsStringCodec;
 import com.comcast.apps.dataaccess.util.Archiver;
 import com.comcast.apps.dataaccess.util.CompressionUtil;
 import com.comcast.apps.dataaccess.util.JsonUtil;
-import com.datastax.driver.core.BatchStatement;
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
-import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.*;
 import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
 import com.google.common.collect.HashMultimap;
@@ -65,18 +62,27 @@ public class CompressingDataDao<K, T> extends SimpleDaoImpl<K, T> {
     @Override
     public T setOne(K rowKey, T entity) {
         String strValue = JsonUtil.toJson(entity);
+        System.out.println("### Y01 =" + strValue + ", Y01.length() = " + strValue.length());
         ByteBuffer data = ByteBuffer.wrap(strValue.getBytes(Charsets.UTF_8));
+        System.out.println("### Y02 = " + data.toString());
+        byte[] bbytes1 = data.array();
+        System.out.println("### Z02 = " + Base64.getEncoder().encodeToString(bbytes1));
+        // System.out.println("### Y01 data.toString().length = " + data.toString().length());
         data = archiver.compress(data);
+        byte[] bbytes2 = data.array();
+        System.out.println("### Y03 = " + data.toString());
+        System.out.println("### Z03 = " + Base64.getEncoder().encodeToString(bbytes2));
+        // System.out.println("### Y02 data.toString().length = " + data.toString().length());
         // cfDef.compressionChunkSize() * 1024 - convert from kilobytes to bytes
         ByteBuffer[] splitData = archiver.split(data, compressionChunkSize * 1024);
 
         BatchStatement batchStatement = new BatchStatement();
         batchStatement.add(
                 insertInto(tableName())
-                .value(keyColumnName, rowKey)
-                .value(legacyColumn, defaultColumnName + "_parts_count")
-                .value(valueColumnName, toBytes(splitData.length))
-                .using(ttl(ttl))
+                        .value(keyColumnName, rowKey)
+                        .value(legacyColumn, defaultColumnName + "_parts_count")
+                        .value(valueColumnName, toBytes(splitData.length))
+                        .using(ttl(ttl))
         );
 
         for (int i = 0; i < splitData.length; i++) {
@@ -89,10 +95,11 @@ public class CompressingDataDao<K, T> extends SimpleDaoImpl<K, T> {
             );
         }
 
-        getSession().execute(batchStatement);
+        ResultSet rs = getSession().execute(batchStatement);
+        System.out.println("++++ rs = " + rs + " ++++");
         System.out.println("batchStatement = " + batchStatement);
         //Collection<Statement> coll = batchStatement.getStatements();
-        for (Statement stmt: batchStatement.getStatements()) {
+        for (Statement stmt : batchStatement.getStatements()) {
             System.out.println("batch element: " + stmt);
         }
         return entity;
@@ -167,7 +174,7 @@ public class CompressingDataDao<K, T> extends SimpleDaoImpl<K, T> {
 
         ByteBuffer[] splitData = new ByteBuffer[partCountVal];
         for (int i = 0; i < partCountVal; i++) {
-            splitData[i] = splitDataMap.get(defaultColumnName + "_part_"+ i);
+            splitData[i] = splitDataMap.get(defaultColumnName + "_part_" + i);
         }
 
         final ByteBuffer compressed = archiver.join(splitData);

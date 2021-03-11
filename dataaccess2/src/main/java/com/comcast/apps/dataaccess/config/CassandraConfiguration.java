@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * @author Roman Dolomansky (rdolomansky@productengine.com)
  */
 package com.comcast.apps.dataaccess.config;
@@ -78,6 +78,7 @@ public class CassandraConfiguration {
 
     @Bean
     public Session session() {
+        System.out.println("#### using " + cassandraSettings.getKeyspaceName());
         return cluster().connect(cassandraSettings.getKeyspaceName());
     }
 

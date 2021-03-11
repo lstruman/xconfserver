@@ -21,6 +21,8 @@
  */
 package com.comcast.xconf.queries.controllers;
 
+import com.comcast.apps.dataaccess.cache.dao.CachedSimpleDao;
+import com.comcast.apps.dataaccess.cache.dao.impl.CachedSimpleDaoImpl;
 import com.comcast.apps.dataaccess.util.JsonUtil;
 import com.comcast.xconf.GenericNamespacedList;
 import com.comcast.xconf.IpAddressGroupExtended;
