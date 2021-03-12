@@ -1,5 +1,8 @@
 #!/bin/bash
 
+keyspace='appds'
+#keyspace='demo'
+
 for t in \
 "ApprovedChange" \
 "Change" \
@@ -44,7 +47,7 @@ for t in \
 "TelemetryTwoRules"
 do
    printf "\n%s\n\n" $t
-   cmd="cqlsh -e 'SELECT * FROM \"$t\"' -k appds"
+   cmd="cqlsh -e 'SELECT * FROM \"$t\"' -k $keyspace"
    echo "$cmd"
    eval "$cmd"
 done

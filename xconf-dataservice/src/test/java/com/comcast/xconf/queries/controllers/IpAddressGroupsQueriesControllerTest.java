@@ -24,6 +24,7 @@ package com.comcast.xconf.queries.controllers;
 import com.comcast.apps.dataaccess.cache.dao.CachedSimpleDao;
 import com.comcast.apps.dataaccess.cache.dao.impl.CachedSimpleDaoImpl;
 import com.comcast.apps.dataaccess.util.JsonUtil;
+import com.comcast.apps.hesperius.ruleengine.domain.additional.data.MacAddress;
 import com.comcast.xconf.GenericNamespacedList;
 import com.comcast.xconf.IpAddressGroupExtended;
 import com.comcast.xconf.converter.GenericNamespacedListsConverter;
@@ -64,6 +65,12 @@ public class IpAddressGroupsQueriesControllerTest extends BaseQueriesControllerT
                 .andExpect(status().isNoContent());
 
         performRequestAndVerifyResponse(QUERIES_IP_ADDRESS_GROUPS, Collections.emptyList());
+    }
+
+    @Test
+    public void test102() throws Exception {
+        MacAddress m = MacAddress.parse("F8A0971ED674");
+        System.out.println("m = " + m);
     }
 
     @Test
