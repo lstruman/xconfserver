@@ -68,9 +68,16 @@ public class IpAddressGroupsQueriesControllerTest extends BaseQueriesControllerT
     }
 
     @Test
+    public void test103() throws Exception {
+        String m1 = "B4:F2:E8:15:67:46";
+        String s1 = JsonUtil.toJson(m1);
+        System.out.println("s1 = " + s1); // s1 = "B4:F2:E8:15:67:46"
+    }
+
+    @Test
     public void test102() throws Exception {
         MacAddress m = MacAddress.parse("F8A0971ED674");
-        System.out.println("m = " + m);
+        System.out.println("m = " + m); // m = F8:A0:97:1E:D6:74
     }
 
     @Test
