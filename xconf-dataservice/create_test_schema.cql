@@ -1,6 +1,6 @@
-CREATE KEYSPACE IF NOT EXISTS demo WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+CREATE KEYSPACE IF NOT EXISTS test_appds WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
 
-USE demo;
+USE test_appds;
 
 CREATE TABLE "ApprovedChange" (key text,column1 text,value blob,PRIMARY KEY ((key), column1)) WITH COMPACT STORAGE;
 

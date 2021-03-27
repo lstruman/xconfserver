@@ -135,6 +135,12 @@ m1 = FC:91:14:53:04:21, r1 = 0-50, b1 = false
         String m1 = "B4:F2:E8:15:67:46";
         String s1 = JsonUtil.toJson(m1);
         System.out.println("s1 = " + s1); // s1 = "B4:F2:E8:15:67:46"
+        if (m1.equals(s1)) {
+            System.out.println("m1 == s1");
+        } else {
+            System.out.println("F01 m1 = " + m1);
+            System.out.println("F02 s1 = " + s1);
+        }
     }
 
     @Test
