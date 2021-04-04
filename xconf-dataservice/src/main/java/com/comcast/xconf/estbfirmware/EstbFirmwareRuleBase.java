@@ -1,5 +1,5 @@
-/* 
- * If not stated otherwise in this file or this component's Licenses.txt file the 
+/*
+ * If not stated otherwise in this file or this component's Licenses.txt file the
  * following copyright and licenses apply:
  *
  * Copyright 2018 RDK Management
@@ -92,6 +92,16 @@ public class EstbFirmwareRuleBase {
     public EvaluationResult eval(EstbFirmwareContext context, String applicationType) {
         EvaluationResult result = new EvaluationResult();
         Multimap<String, FirmwareRule> rules = sort(Optional.presentInstances(firmwareRuleDao.asLoadingCache().asMap().values()), applicationType);
+        // %%%% the key for the Multimap is a free-text field "type", a top level field of the rule json
+        // %%%% rules.keySet().size() = 111  but this does not mean anything
+
+//        System.out.println("+++++++++++++++++++");
+//        for (String key : rules.keySet()) {
+//            Collection<FirmwareRule> list = rules.get(key);
+//            System.out.println("eval(): key=" + key + ", list.size()=" + list.size());
+//        }
+//        System.out.println("--------------------");
+//        System.out.println("rules.keySet().size() = " + rules.keySet().size());
 
         FirmwareRule matchedRule = findMatchedRule(rules, ApplicableAction.Type.RULE_TEMPLATE, context.getProperties(), context.convert().getBypassFilters());
         if (matchedRule == null) {
@@ -202,7 +212,7 @@ public class EstbFirmwareRuleBase {
                 Double endPercentRange = entry.getEndPercentRange();
                 if (startPercentRange != null && startPercentRange >= 0
                         && endPercentRange != null && endPercentRange >= 0) {
-                    if(!RuleUtils.fitsPercent(source, startPercentRange)
+                    if (!RuleUtils.fitsPercent(source, startPercentRange)
                             && RuleUtils.fitsPercent(source, endPercentRange)) {
                         appliedVersionInfo.put(FIRMWARE_SOURCE, "MultipleVersionDistribution");
                         return entry.getConfigId();
@@ -238,13 +248,24 @@ public class EstbFirmwareRuleBase {
     }
 
     private FirmwareConfig getFirmwareConfig(String id) {
-        return StringUtils.isNotBlank(id) ? firmwareConfigDAO.getOne(id): null;
+        return StringUtils.isNotBlank(id) ? firmwareConfigDAO.getOne(id) : null;
     }
 
+    // %%%%
+    //   (1) only rule "templates" have priorities
+    //   (2) A rule "type" matches to "rule template".id
+    //   (3) Multimap was chosed for this purpose. All "rules" are grouped by the rule.type/ruleTemplate.id
+    //   (4) read all rule templates, sorted by priority, for each template, get the rule.type == ruleTemplate.id
+    //       and start matching. all matched are generated as a list, though only the 1 one was picked
     private List<FirmwareRule> findMatchedRules(Multimap<String, FirmwareRule> rules, ApplicableAction.Type templateType,
                                                 Map<String, String> contextMap, Set<String> bypassFilters, boolean isSingle, boolean reverse) {
+        // %%%% templateType "RULE_TEMPLATE", when I was testing /xconf/swu/stb
+        // System.out.println("findMatchedRules(): templateType = " + templateType);
         List<FirmwareRule> results = new ArrayList<>();
         List<FirmwareRuleTemplate> templates = getSortedTemplate(templateType, reverse);
+        // %%%% templates.size()=104, while "select count(*) from FirmwareRuleTemplate" ==> 214
+        // System.out.println("%%%% template.length =" + templates.size());  // %%%%
+
         for (FirmwareRuleTemplate template : templates) {
             String ruleType = template.getId();
             if (bypassFilters.contains(ruleType)) {
@@ -271,6 +292,7 @@ public class EstbFirmwareRuleBase {
         return results;
     }
 
+    // %%%% only the 1st "matched" rule is taken
     private FirmwareRule findMatchedRule(Multimap<String, FirmwareRule> rules, ApplicableAction.Type templateType, Map<String, String> contextMap, Set<String> bypassFilters) {
         List<FirmwareRule> matchedRules = findMatchedRules(rules, templateType, contextMap, bypassFilters, true, false);
         return matchedRules.isEmpty() ? null : matchedRules.get(0);
@@ -278,10 +300,11 @@ public class EstbFirmwareRuleBase {
 
     /**
      * Evaluate rules and collect properties from matched rules. All matched rules will be added into applied filters list
-     * @param rules multimap with all firmware rules
-     * @param templateType template type
-     * @param context request context
-     * @param bypassFilters filters to exclude from evaluation
+     *
+     * @param rules          multimap with all firmware rules
+     * @param templateType   template type
+     * @param context        request context
+     * @param bypassFilters  filters to exclude from evaluation
      * @param appliedFilters list to collect all applied filters
      * @return map with properties defined in matching rules
      */
@@ -469,6 +492,9 @@ public class EstbFirmwareRuleBase {
         return result;
     }
 
+    // %%%% read from FirmwareRuleTemplate
+    //      (1) applicableType == "RULE_TEMPLATE"
+    //      (2) sort by "priority"
     private List<FirmwareRuleTemplate> getSortedTemplate(final ApplicableAction.Type type, final boolean reverse) {
         Iterable<FirmwareRuleTemplate> templates = Optional.presentInstances(firmwareRuleTemplateDao.asLoadingCache().asMap().values());
         List<FirmwareRuleTemplate> all = Lists.newArrayList(Iterables.filter(templates, new Predicate<FirmwareRuleTemplate>() {
@@ -585,7 +611,7 @@ public class EstbFirmwareRuleBase {
             }
             if (StandardOperation.IS.equals(condition.getOperation()) && fixedArg.getValue() != null) {
                 return isIpInRange((String) fixedArg.getValue(), address);
-            } else if (StandardOperation.IN.equals(condition.getOperation()) ) {
+            } else if (StandardOperation.IN.equals(condition.getOperation())) {
                 for (Object ipAddressStr : ((Collection) fixedArg.getValue())) {
                     if (isIpInRange((String) ipAddressStr, address)) {
                         return true;

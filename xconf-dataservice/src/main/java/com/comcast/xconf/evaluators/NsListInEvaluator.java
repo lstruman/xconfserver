@@ -47,7 +47,7 @@ public class NsListInEvaluator extends BaseEvaluator {
 
     @Override
     protected boolean evaluateInternal(String freeArgValue, Object fixedArgValue) {
-        System.out.println("#### NsListInEvaluator.evaluateInternal() ####");
+        // System.out.println("#### NsListInEvaluator.evaluateInternal() ####");
         final GenericNamespacedList nsList = genericListDao.getOne((String) fixedArgValue, false);
         if (nsList == null) {
             log.warn("Can't evaluate rule because NsList doesn't exist. ID: " + fixedArgValue);
