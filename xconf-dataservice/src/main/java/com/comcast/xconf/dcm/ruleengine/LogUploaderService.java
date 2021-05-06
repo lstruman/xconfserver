@@ -241,6 +241,7 @@ public class LogUploaderService {
             Map<String, Object> newHashProfile = new HashMap<>();
             newHashProfile.put("name", telemetryTwoProfile.getName());
             JSONObject jsonObj = new JSONObject(telemetryTwoProfile.getJsonconfig());
+            System.out.println(jsonObj.toString());
             newHashProfile.put("versionHash", getHashValue(jsonObj.toString()));
             ObjectMapper mapper = new ObjectMapper();
             JsonNode node = mapper.readTree(telemetryTwoProfile.getJsonconfig());

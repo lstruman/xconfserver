@@ -92,8 +92,8 @@ public class EstbFirmwareRuleBase {
     public EvaluationResult eval(EstbFirmwareContext context, String applicationType) {
         EvaluationResult result = new EvaluationResult();
         Multimap<String, FirmwareRule> rules = sort(Optional.presentInstances(firmwareRuleDao.asLoadingCache().asMap().values()), applicationType);
-        // %%%% the key for the Multimap is a free-text field "type", a top level field of the rule json
-        // %%%% rules.keySet().size() = 111  but this does not mean anything
+        // %%%% the key for the Multimap is the field "type", which refers to ruleTemplate.Id
+        // %%%% rules.keySet().size() = 111 means there are 111 ruleTemplate.Id (each ruleTemplate carries a priority)
 
 //        System.out.println("+++++++++++++++++++");
 //        for (String key : rules.keySet()) {
